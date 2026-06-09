@@ -1,0 +1,113 @@
+.post-card {
+  padding: 20px;
+  margin-bottom: 12px;
+
+  &__header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 14px;
+    gap: 12px;
+  }
+
+  &__user {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: none;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+    padding: 0;
+    flex: 1;
+    min-width: 0;
+
+    &:hover .post-card__user-name { color: var(--cyan); }
+  }
+
+  &__user-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+  }
+
+  &__user-name {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--white);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: color 0.15s;
+    white-space: nowrap;
+  }
+
+  .verified-icon-sm {
+    color: var(--cyan);
+    flex-shrink: 0;
+  }
+
+  &__meta {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: var(--slate-400);
+    flex-wrap: wrap;
+  }
+
+  &__title { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  &__dot { opacity: 0.5; }
+  &__time { white-space: nowrap; }
+
+  &__body {
+    margin-bottom: 16px;
+  }
+
+  &__content {
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--slate-200);
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+  }
+}
+
+.action-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 12px;
+  border-radius: var(--radius-md);
+  color: var(--slate-400);
+  font-size: 13px;
+  font-weight: 500;
+  transition: all 0.15s;
+  background: none;
+  border: none;
+  cursor: pointer;
+
+  &:hover {
+    background: rgba(255,255,255,0.05);
+    color: var(--white);
+  }
+
+  &--liked {
+    color: #F43F5E;
+    &:hover { background: rgba(244, 63, 94, 0.1); color: #F43F5E; }
+  }
+
+  &--reposted {
+    color: var(--green);
+    &:hover { background: var(--green-glow); color: var(--green); }
+  }
+
+  &--share { margin-left: auto; }
+}

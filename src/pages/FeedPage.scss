@@ -1,0 +1,95 @@
+.feed-page {
+  display: flex;
+  flex-direction: column;
+}
+
+.composer {
+  padding: 16px 20px;
+  margin-bottom: 12px;
+
+  &__top {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+
+  &__input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--white);
+    font-size: 15px;
+    line-height: 1.5;
+    resize: none;
+    padding: 8px 0;
+
+    &::placeholder { color: var(--slate-400); }
+  }
+
+  &__footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+  }
+
+  &__types {
+    display: flex;
+    gap: 4px;
+  }
+}
+
+.type-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 11px;
+  border-radius: var(--radius-full);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--slate-400);
+  background: none;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.15s;
+
+  &__label { display: none; }
+
+  &:hover {
+    background: rgba(255,255,255,0.05);
+    color: var(--white);
+  }
+
+  &.active {
+    background: rgba(79, 70, 229, 0.12);
+    border-color: rgba(79, 70, 229, 0.3);
+    color: var(--indigo-light);
+
+    .type-btn__label { display: inline; }
+  }
+}
+
+.feed-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 8px 0 16px;
+
+  span {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--slate-400);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    white-space: nowrap;
+  }
+
+  &::before, &::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+}
