@@ -4,7 +4,7 @@ import { users } from '../data/mockData';
 import './NetworkPage.scss';
 
 export const NetworkPage: React.FC = () => {
-  const { setViewingUserId, setActiveTab } = useApp();
+  const { setViewingUserId, setActiveTab, followedUserIds, toggleFollowUser } = useApp();
 
   return (
     <div className="network-page">
@@ -30,13 +30,18 @@ export const NetworkPage: React.FC = () => {
                 </div>
               </div>
               <div className="network-card__actions">
-                <button className="btn btn--primary btn--sm">Follow</button>
                 <button
-                  className="btn btn--ghost btn--sm"
-                  onClick={() => { setViewingUserId(user.id); setActiveTab('profile'); }}
-                >
-                  View
-                </button>
+                className="btn btn--primary btn--sm"
+                onClick={() => toggleFollowUser(user.id)}
+              >
+                {followedUserIds.includes(user.id) ? 'Following' : 'Follow'}
+              </button>
+              <button
+                className="btn btn--ghost btn--sm"
+                onClick={() => { setViewingUserId(user.id); setActiveTab('profile'); }}
+              >
+                View
+              </button>
               </div>
             </div>
           ))}

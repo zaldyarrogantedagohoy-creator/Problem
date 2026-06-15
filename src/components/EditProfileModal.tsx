@@ -3,7 +3,7 @@ import { useApp } from '../context/AppContext';
 import './EditProfileModal.scss';
 
 export const EditProfileModal: React.FC = () => {
-  const { setShowEditProfile, currentUser } = useApp();
+  const { setShowEditProfile, currentUser, updateCurrentUserProfile } = useApp();
   const [name, setName] = useState(currentUser.name);
   const [title, setTitle] = useState(currentUser.title);
   const [bio, setBio] = useState(currentUser.bio);
@@ -12,6 +12,7 @@ export const EditProfileModal: React.FC = () => {
   const [saved, setSaved] = useState(false);
 
   const handleSave = () => {
+    updateCurrentUserProfile({ name, title, bio, location, website });
     setSaved(true);
     setTimeout(() => setShowEditProfile(false), 800);
   };

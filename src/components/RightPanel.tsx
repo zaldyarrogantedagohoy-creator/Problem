@@ -1,18 +1,29 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useApp } from '../context/AppContext';
 import './RightPanel.scss';
 
 export const RightPanel: React.FC = () => {
   const { currentUser, setShowVerifyModal } = useApp();
-  const verifiedCount = currentUser.verifiedFields.length;
-  const totalVerifiable = 4;
+  const [followedSuggestions, setFollowedSuggestions] = useState<string[]>([]);
+  const verificationItems = [
+    { label: 'Email verified', field: 'Email' },
+    { label: 'LinkedIn connected', field: 'LinkedIn' },
+    { label: 'GitHub connected', field: 'GitHub' },
+    { label: 'Education verified', field: 'Education Records' },
+    { label: 'Experience verified', field: 'Experience Records' },
+    { label: 'Background check', field: 'Background Check' },
+  ];
+  const verifiedCount = verificationItems.filter(item =>
+    currentUser.verifiedFields.some(f => f.field === item.field)
+  ).length;
+  const totalVerifiable = verificationItems.length;
   const verifiedPct = Math.round((verifiedCount / totalVerifiable) * 100);
 
   return (
     <aside className="right-panel">
       {/* Profile strength */}
       <div className="panel-card card">
-        <h3 className="panel-card__title text-display">Profile Strength</h3>
+        <h3 className="panel-card__title text-display">Employer Trust Score</h3>
         <div className="strength-meter">
           <div className="strength-meter__bar">
             <div className="strength-meter__fill" style={{ width: `${verifiedPct}%` }} />
@@ -25,15 +36,10 @@ export const RightPanel: React.FC = () => {
           </div>
         </div>
         <div className="strength-items">
-          {[
-            { label: 'Email verified', done: currentUser.verifiedFields.some(f => f.field === 'Email') },
-            { label: 'LinkedIn connected', done: currentUser.verifiedFields.some(f => f.field === 'LinkedIn') },
-            { label: 'GitHub connected', done: currentUser.verifiedFields.some(f => f.field === 'GitHub') },
-            { label: 'Identity verified', done: false },
-          ].map(item => (
-            <div key={item.label} className={`strength-item ${item.done ? 'done' : ''}`}>
+          {verificationItems.map(item => (
+            <div key={item.label} className={`strength-item ${currentUser.verifiedFields.some(f => f.field === item.field) ? 'done' : ''}`}>
               <span className="strength-item__check">
-                {item.done ? (
+                {currentUser.verifiedFields.some(f => f.field === item.field) ? (
                   <svg viewBox="0 0 12 12" fill="#22D3EE" width="12" height="12">
                     <path d="M2 6l3 3 5-5"/>
                   </svg>
@@ -76,7 +82,14 @@ export const RightPanel: React.FC = () => {
                 <span className="suggested-item__name">{u.name}</span>
                 <span className="suggested-item__title">{u.title}</span>
               </div>
-              <button className="btn btn--outline btn--sm">Follow</button>
+              <button
+                className="btn btn--outline btn--sm"
+                onClick={() => setFollowedSuggestions(prev =>
+                  prev.includes(u.seed) ? prev.filter(id => id !== u.seed) : [...prev, u.seed]
+                )}
+              >
+                {followedSuggestions.includes(u.seed) ? 'Following' : 'Follow'}
+              </button>
             </div>
           ))}
         </div>

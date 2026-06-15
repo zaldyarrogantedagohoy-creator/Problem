@@ -2,12 +2,14 @@ import React, { useState } from 'react';
 import { useApp } from '../context/AppContext';
 import './VerifyModal.scss';
 
-type VerifyStep = 'choose' | 'email' | 'linkedin' | 'github' | 'document' | 'success';
+type VerifyStep = 'choose' | 'email' | 'linkedin' | 'github' | 'document' | 'education' | 'background' | 'success';
 
 const steps = [
   { id: 'email' as const, label: 'Email Address', icon: '📧', desc: 'Verify your email to build trust' },
   { id: 'linkedin' as const, label: 'LinkedIn Profile', icon: '💼', desc: 'Connect your professional network' },
   { id: 'github' as const, label: 'GitHub Account', icon: '⚡', desc: 'Showcase your code contributions' },
+  { id: 'education' as const, label: 'Education Records', icon: '🎓', desc: 'Verify your degree and certification history' },
+  { id: 'background' as const, label: 'Background Check', icon: '🛡️', desc: 'Verify your professional background and identity' },
   { id: 'document' as const, label: 'Identity Document', icon: '🪪', desc: 'Verify your real identity' },
 ];
 
@@ -94,16 +96,20 @@ export const VerifyModal: React.FC = () => {
               {step === 'email' && 'Enter your email address. We\'ll send a verification code.'}
               {step === 'linkedin' && 'Paste your LinkedIn profile URL to connect your account.'}
               {step === 'github' && 'Enter your GitHub username to verify your contributions.'}
-              {step === 'document' && 'Upload a government-issued ID. It\'s encrypted and never stored.'}
+              {step === 'education' && 'Upload a transcript or diploma for education verification.'}
+              {step === 'background' && 'Share a professional reference or background document.'}
+              {(step === 'document') && 'Upload a government-issued ID. It\'s encrypted and never stored.'}
             </p>
             <div className="form-group">
               <label>
                 {step === 'email' && 'Email Address'}
                 {step === 'linkedin' && 'LinkedIn URL'}
                 {step === 'github' && 'GitHub Username'}
+                {step === 'education' && 'Education Document'}
+                {step === 'background' && 'Background Information'}
                 {step === 'document' && 'Upload Document'}
               </label>
-              {step === 'document' ? (
+              {(step === 'document' || step === 'education' || step === 'background') ? (
                 <div className="upload-area">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" width="32" height="32">
                     <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/>

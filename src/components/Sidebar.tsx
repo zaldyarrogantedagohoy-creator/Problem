@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useApp } from '../context/AppContext';
 import type { TabType } from '../types';
 import './Sidebar.scss';
@@ -36,7 +36,8 @@ const NavIcon = ({ type }: { type: string }) => {
 };
 
 export const Sidebar: React.FC = () => {
-  const { activeTab, setActiveTab, currentUser, notifications } = useApp();
+  const { activeTab, setActiveTab, currentUser, notifications, logout } = useApp();
+  const [showLogoutMenu, setShowLogoutMenu] = useState(false);
 
   const navItems: { id: TabType; label: string }[] = [
     { id: 'feed', label: 'Home' },
@@ -83,19 +84,39 @@ export const Sidebar: React.FC = () => {
       <div className="sidebar__user-card">
         <img src={currentUser.avatar} alt={currentUser.name} className="avatar avatar--md" />
         <div className="sidebar__user-info">
-          <span className="sidebar__user-name">
-            {currentUser.name}
-            {currentUser.verified && (
-              <span className="verified-icon" title="Verified">
-                <svg viewBox="0 0 16 16" fill="none" width="14" height="14">
-                  <path d="M8 1L10 3H13V6L15 8L13 10V13H10L8 15L6 13H3V10L1 8L3 6V3H6L8 1Z" fill="#22D3EE" opacity="0.2"/>
-                  <path d="M8 1L10 3H13V6L15 8L13 10V13H10L8 15L6 13H3V10L1 8L3 6V3H6L8 1Z" stroke="#22D3EE" strokeWidth="1.2"/>
-                  <path d="M5.5 8L7 9.5L10.5 6" stroke="#22D3EE" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-              </span>
-            )}
-          </span>
+          <button
+            type="button"
+            className="sidebar__user-name-button"
+            onClick={() => setShowLogoutMenu(prev => !prev)}
+          >
+            <span className="sidebar__user-name">
+              {currentUser.name}
+              {currentUser.verified && (
+                <span className="verified-icon" title="Verified">
+                  <svg viewBox="0 0 16 16" fill="none" width="14" height="14">
+                    <path d="M8 1L10 3H13V6L15 8L13 10V13H10L8 15L6 13H3V10L1 8L3 6V3H6L8 1Z" fill="#22D3EE" opacity="0.2"/>
+                    <path d="M8 1L10 3H13V6L15 8L13 10V13H10L8 15L6 13H3V10L1 8L3 6V3H6L8 1Z" stroke="#22D3EE" strokeWidth="1.2"/>
+                    <path d="M5.5 8L7 9.5L10.5 6" stroke="#22D3EE" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </span>
+              )}
+            </span>
+          </button>
           <span className="sidebar__user-handle">@{currentUser.username}</span>
+          {showLogoutMenu && (
+            <div className="sidebar__logout-menu">
+              <button
+                type="button"
+                className="sidebar__logout-btn"
+                onClick={() => {
+                  setShowLogoutMenu(false);
+                  logout();
+                }}
+              >
+                Log out
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </aside>

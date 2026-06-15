@@ -2,25 +2,25 @@
 
 // ─── Design Tokens ───────────────────────────────────────────────────────────
 :root {
-  --navy-950: #050810;
-  --navy-900: #0A0F1E;
-  --navy-800: #111827;
-  --navy-700: #1A2235;
-  --navy-600: #243047;
-  --navy-500: #2E3D5C;
+  --navy-950: #0F172A;
+  --navy-900: #1E2A49;
+  --navy-800: #25335E;
+  --navy-700: #2D427B;
+  --navy-600: #3852A0;
+  --navy-500: #4F6CCF;
 
-  --slate-400: #94A3B8;
-  --slate-300: #CBD5E1;
-  --slate-200: #E2E8F0;
-  --white: #F8FAFC;
+  --slate-400: #475E7C;
+  --slate-300: #5E7997;
+  --slate-200: #D0DCE8;
+  --white: #F8FAFF;
 
-  --indigo: #4F46E5;
-  --indigo-light: #6366F1;
-  --indigo-glow: rgba(79, 70, 229, 0.35);
+  --indigo: #2563EB;
+  --indigo-light: #60A5FA;
+  --indigo-glow: rgba(37, 99, 235, 0.25);
 
-  --cyan: #22D3EE;
-  --cyan-light: #67E8F9;
-  --cyan-glow: rgba(34, 211, 238, 0.25);
+  --cyan: #38BDF8;
+  --cyan-light: #A5F3FC;
+  --cyan-glow: rgba(56, 189, 248, 0.18);
 
   --green: #10B981;
   --green-glow: rgba(16, 185, 129, 0.2);
@@ -29,9 +29,9 @@
   --red: #EF4444;
 
   --verified-gradient: linear-gradient(135deg, var(--indigo), var(--cyan));
-  --card-bg: rgba(26, 34, 53, 0.8);
-  --border: rgba(255, 255, 255, 0.07);
-  --border-hover: rgba(255, 255, 255, 0.14);
+  --card-bg: rgba(255, 255, 255, 0.92);
+  --border: rgba(37, 99, 235, 0.12);
+  --border-hover: rgba(37, 99, 235, 0.22);
 
   --font-display: 'Syne', sans-serif;
   --font-body: 'Inter', sans-serif;
@@ -57,8 +57,8 @@ html { font-size: 16px; }
 
 body {
   font-family: var(--font-body);
-  background: var(--navy-900);
-  color: var(--white);
+  background: linear-gradient(180deg, #F8FAFF 0%, #E8F1FF 100%);
+  color: var(--navy-950);
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
@@ -98,28 +98,28 @@ input, textarea { font: inherit; }
   position: fixed;
   inset: 0;
   z-index: -1;
-  background: var(--navy-900);
+  background: linear-gradient(180deg, #F8FAFF 0%, #E5EEFF 100%);
   overflow: hidden;
 
   &::before {
     content: '';
     position: absolute;
-    top: -30%;
-    left: -10%;
-    width: 60%;
-    height: 60%;
-    background: radial-gradient(ellipse, rgba(79, 70, 229, 0.12) 0%, transparent 70%);
+    top: -20%;
+    left: -5%;
+    width: 55%;
+    height: 55%;
+    background: radial-gradient(ellipse, rgba(37, 99, 235, 0.18) 0%, transparent 70%);
     animation: drift1 20s ease-in-out infinite alternate;
   }
 
   &::after {
     content: '';
     position: absolute;
-    bottom: -20%;
-    right: -10%;
-    width: 50%;
-    height: 50%;
-    background: radial-gradient(ellipse, rgba(34, 211, 238, 0.08) 0%, transparent 70%);
+    bottom: -25%;
+    right: -15%;
+    width: 45%;
+    height: 45%;
+    background: radial-gradient(ellipse, rgba(56, 189, 248, 0.16) 0%, transparent 70%);
     animation: drift2 25s ease-in-out infinite alternate;
   }
 }
@@ -138,13 +138,12 @@ input, textarea { font: inherit; }
   background: var(--card-bg);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
-  backdrop-filter: blur(20px);
-
+  backdrop-filter: blur(20px);  color: var(--navy-950);
   &--hover {
     transition: border-color 0.2s, box-shadow 0.2s;
     &:hover {
       border-color: var(--border-hover);
-      box-shadow: 0 4px 24px rgba(0,0,0,0.3);
+      box-shadow: 0 8px 30px rgba(37, 99, 235, 0.12);
     }
   }
 }
@@ -215,7 +214,7 @@ input, textarea { font: inherit; }
     background: transparent;
     color: var(--slate-400);
     padding: 6px 12px;
-    &:hover { background: rgba(255,255,255,0.05); color: var(--white); }
+    &:hover { background: rgba(255,255,255,0.08); color: var(--navy-950); }
   }
 
   &--cyan {
@@ -254,7 +253,7 @@ input, textarea { font: inherit; }
     font-family: var(--font-display);
     font-weight: 700;
     font-size: 18px;
-    color: var(--white);
+    color: var(--navy-950);
   }
 
   .stat-label {
@@ -359,7 +358,7 @@ input, textarea { font: inherit; }
     justify-content: center;
     color: var(--slate-400);
     transition: all 0.15s;
-    &:hover { background: rgba(255,255,255,0.07); color: var(--white); }
+    &:hover { background: rgba(255,255,255,0.12); color: var(--navy-950); }
   }
 }
 
@@ -386,11 +385,11 @@ input, textarea { font: inherit; }
   }
 
   input, textarea, select {
-    background: var(--navy-700);
+    background: rgba(255,255,255,0.95);
     border: 1px solid var(--border);
     border-radius: var(--radius-md);
     padding: 10px 14px;
-    color: var(--white);
+    color: var(--navy-950);
     font-size: 14px;
     transition: border-color 0.15s, box-shadow 0.15s;
     outline: none;

@@ -10,36 +10,42 @@ import { ExplorePage } from './pages/ExplorePage';
 import { ProfilePage } from './pages/ProfilePage';
 import { NetworkPage } from './pages/NetworkPage';
 import { NotificationsPage } from './pages/NotificationsPage';
+import { LandingPage } from './pages/LandingPage';
 import './styles/globals.scss';
 
 const AppContent: React.FC = () => {
   const { activeTab, showVerifyModal, showEditProfile } = useApp();
 
   const showRightPanel = ['feed', 'explore'].includes(activeTab);
+  const hideNavigation = activeTab === 'landing';
 
   return (
     <>
       <div className="app-bg" />
 
-      <div className="app-layout">
-        {/* Sidebar */}
-        <Sidebar />
+      {hideNavigation ? (
+        <LandingPage />
+      ) : (
+        <div className="app-layout">
+          {/* Sidebar */}
+          <Sidebar />
 
-        {/* Main */}
-        <main className="main-content">
-          {activeTab === 'feed' && <FeedPage />}
-          {activeTab === 'explore' && <ExplorePage />}
-          {activeTab === 'profile' && <ProfilePage />}
-          {activeTab === 'network' && <NetworkPage />}
-          {activeTab === 'notifications' && <NotificationsPage />}
-        </main>
+          {/* Main */}
+          <main className="main-content">
+            {activeTab === 'feed' && <FeedPage />}
+            {activeTab === 'explore' && <ExplorePage />}
+            {activeTab === 'profile' && <ProfilePage />}
+            {activeTab === 'network' && <NetworkPage />}
+            {activeTab === 'notifications' && <NotificationsPage />}
+          </main>
 
-        {/* Right panel */}
-        {showRightPanel && <RightPanel />}
-      </div>
+          {/* Right panel */}
+          {showRightPanel && <RightPanel />}
+        </div>
+      )}
 
       {/* Mobile nav */}
-      <MobileNav />
+      {!hideNavigation && <MobileNav />}
 
       {/* Modals */}
       {showVerifyModal && <VerifyModal />}

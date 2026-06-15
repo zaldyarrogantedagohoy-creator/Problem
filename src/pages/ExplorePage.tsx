@@ -4,7 +4,7 @@ import { users as allUsers } from '../data/mockData';
 import './ExplorePage.scss';
 
 export const ExplorePage: React.FC = () => {
-  const { setViewingUserId, setActiveTab } = useApp();
+  const { setViewingUserId, setActiveTab, followedUserIds, toggleFollowUser } = useApp();
   const [query, setQuery] = useState('');
   const [filter, setFilter] = useState<'all' | 'verified' | 'engineers' | 'designers'>('all');
 
@@ -83,9 +83,15 @@ export const ExplorePage: React.FC = () => {
               <div className="people-card__stat">
                 <strong>{user.followers.toLocaleString()}</strong> followers
               </div>
-              <button className="btn btn--primary btn--sm" onClick={e => { e.stopPropagation(); }}>
-                Follow
-              </button>
+              <button
+              className="btn btn--primary btn--sm"
+              onClick={e => {
+                e.stopPropagation();
+                toggleFollowUser(user.id);
+              }}
+            >
+              {followedUserIds.includes(user.id) ? 'Following' : 'Follow'}
+            </button>
             </div>
           </div>
         ))}

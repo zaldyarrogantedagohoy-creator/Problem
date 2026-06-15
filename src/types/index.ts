@@ -108,5 +108,16 @@ export interface Post {
   createdAt: string;
 }
 
-export type TabType = 'feed' | 'explore' | 'profile' | 'network' | 'notifications';
-export type ProfileTab = 'overview' | 'experience' | 'projects' | 'certificates' | 'skills';
+export interface AppNotification {
+  id: string;
+  type: 'follow' | 'like' | 'endorse' | 'verify' | 'comment';
+  avatar: string;
+  name: string;
+  action: string;
+  time: string;
+  read: boolean;
+  system?: boolean;
+}
+
+export type TabType = 'landing' | 'feed' | 'explore' | 'profile' | 'network' | 'notifications';
+export type ProfileTab = 'overview' | 'experience' | 'education' | 'projects' | 'certificates' | 'skills';

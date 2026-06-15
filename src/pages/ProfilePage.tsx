@@ -15,7 +15,8 @@ const VerifiedBadge = () => (
 );
 
 const ProfileHeader: React.FC<{ user: User; isOwn: boolean }> = ({ user, isOwn }) => {
-  const { setShowVerifyModal, setShowEditProfile } = useApp();
+  const { setShowVerifyModal, setShowEditProfile, followedUserIds, toggleFollowUser, setActiveTab: setAppTab } = useApp();
+  const isFollowing = followedUserIds.includes(user.id);
 
   return (
     <div className="profile-header card">
@@ -48,8 +49,18 @@ const ProfileHeader: React.FC<{ user: User; isOwn: boolean }> = ({ user, isOwn }
             </>
           ) : (
             <>
-              <button className="btn btn--outline btn--sm">Message</button>
-              <button className="btn btn--primary btn--sm">Follow</button>
+              <button
+                className="btn btn--outline btn--sm"
+                onClick={() => setAppTab('notifications')}
+              >
+                Message
+              </button>
+              <button
+                className="btn btn--primary btn--sm"
+                onClick={() => toggleFollowUser(user.id)}
+              >
+                {isFollowing ? 'Following' : 'Follow'}
+              </button>
             </>
           )}
         </div>
@@ -180,6 +191,29 @@ const CertificatesSection: React.FC<{ user: User }> = ({ user }) => (
   </div>
 );
 
+const EducationSection: React.FC<{ user: User }> = ({ user }) => (
+  <div className="profile-section">
+    <h3 className="profile-section__title text-display">Education</h3>
+    <div className="certs-grid">
+      {user.education.map(edu => (
+        <div key={edu.id} className="cert-card card card--hover">
+          <div className="cert-card__header">
+            <img src={edu.institutionLogo} alt={edu.institution} className="avatar avatar--sm" style={{ borderRadius: '8px' }} />
+            <div>
+              <div className="cert-card__title">{edu.institution}</div>
+              <div className="cert-card__meta">{edu.degree} in {edu.field}</div>
+            </div>
+            {edu.verified && <VerifiedBadge />}
+          </div>
+          <div className="cert-card__meta" style={{ marginTop: '10px' }}>
+            {edu.startYear} — {edu.endYear}
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+);
+
 const ProjectsSection: React.FC<{ user: User }> = ({ user }) => (
   <div className="profile-section">
     <h3 className="profile-section__title text-display">Projects</h3>
@@ -278,6 +312,7 @@ export const ProfilePage: React.FC = () => {
   const tabs: { id: ProfileTab; label: string }[] = [
     { id: 'overview', label: 'Overview' },
     { id: 'experience', label: 'Experience' },
+    { id: 'education', label: 'Education' },
     { id: 'projects', label: 'Projects' },
     { id: 'certificates', label: 'Certificates' },
     { id: 'skills', label: 'Skills' },
@@ -301,6 +336,7 @@ export const ProfilePage: React.FC = () => {
 
       <div className="profile-content">
         {(activeTab === 'overview' || activeTab === 'experience') && <ExperienceSection user={user} />}
+        {(activeTab === 'overview' || activeTab === 'education') && <EducationSection user={user} />}
         {(activeTab === 'overview' || activeTab === 'projects') && <ProjectsSection user={user} />}
         {(activeTab === 'overview' || activeTab === 'certificates') && <CertificatesSection user={user} />}
         {(activeTab === 'overview' || activeTab === 'skills') && <SkillsSection user={user} />}

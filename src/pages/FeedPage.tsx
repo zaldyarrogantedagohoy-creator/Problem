@@ -4,9 +4,17 @@ import { PostCard } from '../components/PostCard';
 import './FeedPage.scss';
 
 export const FeedPage: React.FC = () => {
-  const { posts, currentUser } = useApp();
+  const { posts, currentUser, addPost } = useApp();
   const [postText, setPostText] = useState('');
   const [postType, setPostType] = useState<'update' | 'project' | 'achievement'>('update');
+
+  const handlePost = () => {
+    const trimmed = postText.trim();
+    if (!trimmed) return;
+    addPost(trimmed, postType);
+    setPostText('');
+    setPostType('update');
+  };
 
   return (
     <div className="feed-page">
@@ -37,7 +45,7 @@ export const FeedPage: React.FC = () => {
               </button>
             ))}
           </div>
-          <button className="btn btn--primary btn--sm" disabled={!postText.trim()}>
+          <button className="btn btn--primary btn--sm" disabled={!postText.trim()} onClick={handlePost}>
             Post
           </button>
         </div>
