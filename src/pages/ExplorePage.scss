@@ -1,0 +1,282 @@
+// ─────────────────────────────────────────────────────────────
+// ExplorePage — aurora video bg + liquid glass cards
+// (matches FeedPage layout)
+// ─────────────────────────────────────────────────────────────
+
+// ── Liquid glass surface ──────────────────────────────────────
+@mixin liquid-glass($glow-color: rgba(80, 140, 220, 0.18)) {
+  position: relative;
+  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  backdrop-filter: blur(32px) saturate(1.6) brightness(1.08);
+  -webkit-backdrop-filter: blur(32px) saturate(1.6) brightness(1.08);
+  box-shadow:
+    0 2px 0 rgba(255, 255, 255, 0.55) inset,
+    0 -1px 0 rgba(255, 255, 255, 0.12) inset,
+    0 20px 56px $glow-color,
+    0 2px 8px rgba(255, 255, 255, 0.18) inset;
+  overflow: hidden;
+  transition:
+    transform       0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow      0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    backdrop-filter 0.35s ease,
+    background      0.35s ease,
+    border-color    0.35s ease;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.36) 0%,
+      rgba(200, 220, 255, 0.10) 30%,
+      rgba(255, 200, 240, 0.07) 58%,
+      rgba(200, 255, 240, 0.05) 78%,
+      transparent 100%
+    );
+    pointer-events: none;
+    transition: opacity 0.35s ease;
+    opacity: 0.7;
+    z-index: 0;
+  }
+
+  > * { position: relative; z-index: 1; }
+}
+
+@mixin liquid-glass-hover($glow-color: rgba(80, 140, 220, 0.28)) {
+  &:hover {
+    background: rgba(255, 255, 255, 0.20);
+    backdrop-filter: blur(48px) saturate(2.0) brightness(1.12);
+    -webkit-backdrop-filter: blur(48px) saturate(2.0) brightness(1.12);
+    transform: translateY(-3px);
+    box-shadow:
+      0 2px 0 rgba(255, 255, 255, 0.65) inset,
+      0 -1px 0 rgba(255, 255, 255, 0.18) inset,
+      0 28px 72px $glow-color,
+      0 8px 24px rgba(255, 255, 255, 0.22) inset;
+    border-color: rgba(255, 255, 255, 0.42);
+    &::before { opacity: 1; }
+  }
+  &:active { transform: translateY(-1px); transition-duration: 0.12s; }
+}
+
+// ── Page shell ────────────────────────────────────────────────
+.explore-page {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 32px 20px 48px;
+  min-height: 100vh;
+}
+
+// ── Search card ───────────────────────────────────────────────
+.explore-search {
+  @include liquid-glass(rgba(80, 140, 220, 0.14));
+  border-radius: 20px;
+  padding: 14px 18px;
+  margin-bottom: 12px;
+  animation: exploreFadeUp 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+
+  &__input-wrap {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  &__icon { color: var(--slate-400); flex-shrink: 0; }
+
+  &__input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--navy-950);
+    font-size: 15px;
+
+    &::placeholder { color: var(--slate-400); }
+  }
+}
+
+// ── Filter chips ──────────────────────────────────────────────
+.explore-filters {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+  animation: exploreFadeUp 0.55s cubic-bezier(0.22, 1, 0.36, 1) 60ms both;
+}
+
+.filter-chip {
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  font-size: 13px;
+  font-weight: 500;
+  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  backdrop-filter: blur(16px);
+  color: rgba(71, 94, 124, 0.9);
+  cursor: pointer;
+  transition: all 0.18s cubic-bezier(0.22, 1, 0.36, 1);
+  box-shadow: 0 1px 0 rgba(255,255,255,0.5) inset;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.24);
+    border-color: rgba(255, 255, 255, 0.45);
+    color: var(--navy-950);
+    transform: translateY(-1px);
+  }
+
+  &.active {
+    background: rgba(79, 70, 229, 0.14);
+    border-color: rgba(79, 70, 229, 0.32);
+    color: var(--navy-950);
+    box-shadow:
+      0 1px 0 rgba(255,255,255,0.35) inset,
+      0 2px 10px rgba(79,70,229,0.15);
+  }
+}
+
+// ── Grid ──────────────────────────────────────────────────────
+.explore-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 12px;
+}
+
+// ── People card ───────────────────────────────────────────────
+.people-card {
+  @include liquid-glass(rgba(80, 140, 220, 0.12));
+  @include liquid-glass-hover(rgba(80, 140, 220, 0.22));
+  border-radius: 18px;
+  padding: 0;
+  cursor: pointer;
+  animation: exploreFadeUp 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: calc(var(--ci, 0) * 50ms);
+
+  // override card styles since we use liquid-glass mixin
+  background: rgba(255, 255, 255, 0.14) !important;
+  border: 1px solid rgba(255, 255, 255, 0.28) !important;
+
+  &__bg {
+    height: 60px;
+    background: linear-gradient(135deg, rgba(37,99,235,0.35), rgba(56,189,248,0.2));
+    position: relative;
+    border-radius: 18px 18px 0 0;
+
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(79,70,229,0.25), rgba(34,211,238,0.1));
+      border-radius: inherit;
+    }
+  }
+
+  &__header {
+    position: relative;
+    padding: 0 16px;
+    margin-top: -30px;
+    display: flex;
+    align-items: flex-end;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+
+  &__verified {
+    margin-bottom: 4px;
+    background: rgba(255,255,255,0.25);
+    backdrop-filter: blur(8px);
+    border-radius: 50%;
+    width: 22px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    filter: drop-shadow(0 0 4px var(--cyan-glow));
+  }
+
+  &__info {
+    padding: 0 16px;
+    margin-bottom: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  &__name {
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: #0f172a;
+  }
+
+  &__title {
+    font-size: 13px;
+    color: var(--slate-300);
+  }
+
+  &__location {
+    margin-top: 1px;
+    font-size: 12px;
+    color: #64748b;
+  }
+
+  &__skills {
+    padding: 0 16px;
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+    margin-bottom: 14px;
+  }
+
+  &__footer {
+    padding: 12px 16px;
+    border-top: 1px solid rgba(255, 255, 255, 0.30);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 13px;
+    color: #64748b;
+
+    strong { color: #0f172a; font-weight: 600; }
+  }
+}
+
+// ── Empty state ───────────────────────────────────────────────
+.explore-empty {
+  @include liquid-glass(rgba(80, 140, 220, 0.10));
+  border-radius: 18px;
+  padding: 40px 24px;
+  text-align: center;
+  color: #475569;
+  font-size: 0.92rem;
+  grid-column: 1 / -1;
+  animation: exploreFadeUp 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+
+  p { margin: 0; opacity: 0.8; }
+}
+
+// ── Keyframes ─────────────────────────────────────────────────
+@keyframes exploreFadeUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+// ── Responsive ────────────────────────────────────────────────
+@media (max-width: 720px) {
+  .explore-page { padding: 20px 12px 40px; }
+  .explore-grid { grid-template-columns: 1fr; }
+}
+
+// ── Reduced motion ────────────────────────────────────────────
+@media (prefers-reduced-motion: reduce) {
+  .people-card,
+  .explore-search,
+  .explore-empty { animation: none; transition: none; &:hover { transform: none; } }
+}
